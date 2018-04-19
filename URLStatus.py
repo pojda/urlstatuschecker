@@ -10,15 +10,24 @@ class URLStatus:
     def __init__(self, args):
         self.user_agents = self._getUAs(args)
         self.urls = self._getUrls(args)
-        self.runTests()
+        self.runTests(args)
         print(self.errors)
 
 
-    def runTests(self):
+    def runTests(self, args):
+        allowed_devices = ['desktop','mobile','tablet']
+        if not args.desktop:
+            allowed_devices.remove('desktop')
+        if not args.mobile:
+            allowed_devices.remove('mobile')
+        if not args.tablet:
+            allowed_devices.remove('tablet')
+
         for url in self.urls:
             for device in self.user_agents:
-                for ua in self.user_agents[device]:
-                    self._test(url, ua)
+                if device in allowed_devices:
+                    for ua in self.user_agents[device]:
+                        self._test(url, ua)
 
     def _test(self, url, ua):
         headers = {'user-agent':ua}

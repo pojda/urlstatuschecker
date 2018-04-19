@@ -9,15 +9,18 @@ parser.add_argument("-a", "--all",
 
 parser.add_argument("-d", "--desktop",
                     help="Validates using Desktop user agent", 
-                    action="store_true")
+                    action="store_true",
+                    default=False)
 
 parser.add_argument("-m", "--mobile", 
                     help="Validates using Mobile user agent", 
-                    action="store_true")
+                    action="store_true",
+                    default=False)
 
 parser.add_argument("-t", "--tablet", 
                     help="Validates using Tablet user agent", 
-                    action="store_true")
+                    action="store_true",
+                    default=False)
 
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--urls-file",
