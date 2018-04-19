@@ -64,7 +64,7 @@ class URLStatus:
                 print("file type not yet supported")
                 exit()
         else:
-            user_agents = json.load(open("uas.json",'r'))
+            user_agents = json.load(open("conf/uas.json",'r'))
         
         return user_agents
 
