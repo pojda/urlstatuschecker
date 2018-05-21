@@ -16,12 +16,13 @@ class URLStatus:
 
     def runTests(self, args):
         allowed_devices = ['desktop','mobile','tablet']
-        if not args.desktop:
-            allowed_devices.remove('desktop')
-        if not args.mobile:
-            allowed_devices.remove('mobile')
-        if not args.tablet:
-            allowed_devices.remove('tablet')
+        if not args.all:
+            if not args.desktop:
+                allowed_devices.remove('desktop')
+            if not args.mobile:
+                allowed_devices.remove('mobile')
+            if not args.tablet:
+                allowed_devices.remove('tablet')
 
         for url in self.urls:
             for device in self.user_agents:
@@ -46,7 +47,7 @@ class URLStatus:
                 self.errors.append([url, ua, "REDIRECT LOOP"])
                 break
                 #exit(1)
-            
+
             except requests.exceptions.RequestException as e:
                 print("Request error: {}".format(e))
                 self.errors.append([url, ua, "REQUEST ERROR"])
@@ -65,13 +66,16 @@ class URLStatus:
                 exit()
         else:
             user_agents = json.load(open("conf/uas.json",'r'))
-        
+
         return user_agents
 
     def _getUrls(self, args):
         if args.urls_file:
             with open(args.urls_file) as f:
                 urls = [line.rstrip() for line in f.readlines()]
-        else:
+        elif args.url:
             urls = [args.url]
+        else:
+            with open("conf/urls.txt",'r') as f:
+                urls = [line.strip() for line in f.readlines()]
         return urls
